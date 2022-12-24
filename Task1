@@ -1,0 +1,48 @@
+package com.dmdev.oop.homework.task1;
+
+/**
+ * Создать программно и заполнить файл случайными целыми числами.
+ * После чего отсортировать содержимое файла по возрастанию (т.е. перезаписать файл с новым порядком чисел)
+ */
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.*;
+
+
+
+public class task1 {
+
+    public static void main(String[] args) throws IOException {
+        File file = Path.of("src", "test.txt").toFile();
+        try (FileWriter fileWriter = new FileWriter(file)) {
+            for (int i = 0; i < 20; i++) {
+                fileWriter.append(String.valueOf((int) (Math.random() * 20) + " "));
+                fileWriter.flush();
+            }
+        }
+
+        try (FileReader fileReader = new FileReader(file)) {
+            List<Integer> list = new ArrayList<>();
+            Scanner scanner = new Scanner(fileReader);
+            while (scanner.hasNext()) {
+                list.add(Integer.valueOf(scanner.nextInt()));
+            }
+            Collections.sort(list);
+
+            System.out.println(list);
+            File file1 = Path.of("src", "test1.txt").toFile();
+            FileWriter writer = new FileWriter(file1);
+            for (Integer integer : list) {
+                System.out.print(integer + " ");
+                writer.write(integer + " ");
+                writer.flush();
+            }
+
+        }
+    }
+
+}
